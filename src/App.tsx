@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import api from './api' // FILE STORING ALL API FUNCTIONS
 
 const client = generateClient<Schema>();
 
 function App() {
   const { signOut } = useAuthenticator();
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [scanlog, setScanlog] = useState<Array<Schema["Todo"]["type"]>>([]) // ARRAY OF MOST RECENT SCANS
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
     });
+    api.getScanlog(setScanlog) 
   }, []);
 
   function createTodo() {
@@ -41,6 +44,16 @@ function App() {
         </a>
       </div>
       <button onClick={signOut}>Sign out</button>
+      {/* {
+      scanlog.length > 0 ? 
+      scanlog.map((scan: any, i)=>{
+        return (
+          <div className="scanned_item">{scan.userName}, {scan.itemName}, {scan.scanMode}, {scan.scanDate} </div>
+        )
+        
+      })
+      : null
+    } */}
     </main>
   );
 }
