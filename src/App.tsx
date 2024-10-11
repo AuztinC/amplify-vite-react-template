@@ -9,7 +9,7 @@ const client = generateClient<Schema>();
 function App() {
   const { signOut } = useAuthenticator();
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-  const [scanlog, setScanlog] = useState<Array<Schema["Todo"]["type"]>>([]) // ARRAY OF MOST RECENT SCANS
+  const [scanlog, setScanlog] = useState([]) // ARRAY OF MOST RECENT SCANS
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
