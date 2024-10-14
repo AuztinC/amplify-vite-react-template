@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import api from './api' // FILE STORING ALL API FUNCTIONS
+import api from './api/handler' // FILE STORING ALL API FUNCTIONS
+
 
 const client = generateClient<Schema>();
 
@@ -15,7 +16,7 @@ function App() {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
     });
-    // api.getScanlog(setScanlog) 
+    api.getScanlog(setScanlog) 
   }, []);
 
   function createTodo() {
